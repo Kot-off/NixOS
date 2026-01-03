@@ -64,12 +64,6 @@
       # Мощность сигнала (для ноутбука)
       powersave = false;           # Отключить энергосбережение (лучше сигнал)
     };
-    
-    # Дополнительные пакеты
-    extraPackages = with pkgs; [
-      networkmanager-fortisslvpn   # Для Fortinet VPN
-      networkmanager-iodine        # Для DNS туннелей
-    ];
   };
   
   # ===========================================================================
