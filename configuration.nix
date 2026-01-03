@@ -8,20 +8,31 @@
     ./modules/security.nix
   ];
 
-  # ЗАГРУЗЧИК (без этого система не загрузится)
+  # ФАЙЛОВЫЕ СИСТЕМЫ (ДОБАВИТЬ!)
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/boot";
+    fsType = "vfat";
+  };
+
+  # ЗАГРУЗЧИК
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # ПАРАМЕТРЫ ЯДРА для Honor
+  # ПАРАМЕТРЫ ЯДРА
   boot.kernelParams = [
     "reboot=pci"
     "acpi=force"
     "nomodeset"
-    "i8042.nopnp"  # для PS/2 клавиатуры/тачпада
+    "i8042.nopnp"
     "i8042.dumbkbd"
   ];
 
-  # МОДУЛИ для клавиатуры и тачпада
+  # МОДУЛИ
   boot.initrd.kernelModules = [ "i8042" ];
   boot.kernelModules = [ "uinput" "evdev" ];
 
@@ -39,13 +50,12 @@
     keyMap = "us";
   };
 
-  # X11 для Hyprland (Hyprland работает поверх XWayland)
+  # X11 для Hyprland
   services.xserver = {
     enable = true;
     layout = "us,ru";
     xkbOptions = "grp:alt_shift_toggle";
     
-    # ДРАЙВЕРЫ ВВОДА - для клавиатуры и тачпада
     libinput = {
       enable = true;
       touchpad = {
@@ -55,18 +65,17 @@
       };
     };
     
-    # Универсальный видео драйвер
     videoDrivers = [ "modesetting" ];
   };
 
-  # HYPRLAND
+  # HYPRLAND (УДАЛИТЬ nvidiaPatches!)
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-    nvidiaPatches = false;  # у тебя Intel/AMD
+    # УДАЛИТЬ: nvidiaPatches = false;
   };
 
-  # Дисплей менеджер SDDM (для Hyprland)
+  # Дисплей менеджер
   services.xserver.displayManager = {
     defaultSession = "hyprland";
     sddm = {
@@ -74,10 +83,6 @@
       wayland.enable = true;
     };
   };
-
-  # ОТКЛЮЧАЕМ GNOME (если был)
-  services.xserver.desktopManager.gnome.enable = false;
-  services.xserver.displayManager.gdm.enable = false;
 
   # ПОЛЬЗОВАТЕЛЬ
   users.users.anton = {
@@ -87,7 +92,7 @@
       "networkmanager" 
       "video" 
       "audio" 
-      "input"      # для клавиатуры/мыши
+      "input"
       "bluetooth" 
     ];
     initialPassword = "12345678";
@@ -96,30 +101,14 @@
   # SUDO без пароля
   security.sudo.wheelNeedsPassword = false;
 
-  # ОБЯЗАТЕЛЬНЫЕ ПАКЕТЫ
+  # ПАКЕТЫ
   environment.systemPackages = with pkgs; [
-    # Системные
-    git
-    vim
-    wget
-    curl
-    
-    # Hyprland минимальный набор
-    kitty     # терминал
-    firefox   # браузер
-    
-    # Рабочий стол Hyprland
-    rofi      # меню запуска
-    waybar    # панель
-    swaybg    # обои
-    
-    # Утилиты
-    grim      # скриншоты
-    slurp
-    wl-clipboard
+    git vim wget curl
+    kitty firefox
+    rofi waybar swaybg
+    grim slurp wl-clipboard
   ];
 
-  # Разрешить несвободные пакеты (драйверы Wi-Fi)
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "23.11";
