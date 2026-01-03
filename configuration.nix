@@ -27,8 +27,7 @@
   boot.kernelParams = [
     "i8042.nopnp"
     "i8042.dumbkbd"
-    "video=vesafb:off"  
-    "video=efifb:off"  
+    "iTCO_wdt.heartbeat=0"  
   ];
 
   # ========== МОДУЛИ ЯДРА ==========
