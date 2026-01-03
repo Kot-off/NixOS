@@ -19,21 +19,16 @@
     fsType = "vfat";
   };
 
-  # SWAP
-  swapDevices = [
-    { device = "/dev/disk/by-label/swap"; }  # Или без метки для swap
-  ];
-
   # ========== ЗАГРУЗЧИК ==========
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # ========== ПАРАМЕТРЫ ЯДРА ==========
   boot.kernelParams = [
-    "reboot=pci"
-    "acpi=force"
     "i8042.nopnp"
     "i8042.dumbkbd"
+    "video=vesafb:off"  
+    "video=efifb:off"  
   ];
 
   # ========== МОДУЛИ ЯДРА ==========
@@ -130,5 +125,5 @@
   nixpkgs.config.allowUnfree = true;
 
   # ========== ВЕРСИЯ СИСТЕМЫ ==========
-  system.stateVersion = "25.11";  # Исправлено с 23.11 на 25.11
+  system.stateVersion = "25.11";
 }
