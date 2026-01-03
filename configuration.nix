@@ -28,6 +28,7 @@
     "i8042.nopnp"
     "i8042.dumbkbd"
     "iTCO_wdt.heartbeat=0"
+    "i915.force_probe=7d51"
   ];
 
   # ========== МОДУЛИ ЯДРА ==========
@@ -57,7 +58,7 @@
       options = "grp:alt_shift_toggle";
     };
     
-    videoDrivers = [ "modesetting" ];
+    videoDrivers = [ "intel" ];
   };
 
   # ========== LIBINPUT (тачпад) ==========
