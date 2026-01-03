@@ -17,8 +17,8 @@
     
     # DNS серверы (когда VPN отключен)
     nameservers = [ 
-      "1.1.1.1"  # Cloudflare (быстрый и приватный)
-      "8.8.8.8"  # Google (резервный)
+      "1.1.1.1"  # Cloudflare 
+      "8.8.8.8"  # Google
     ];
     
     # Настройки фаервола
@@ -35,11 +35,11 @@
       
       allowedTCPPorts = [ 
         53       # DNS
-        22       # SSH (если нужно)
+        22       # SSH
       ];
       
       # Разрешить ping (можно отключить для безопасности)
-      allowPing = true;
+      allowPing = false;
     };
   };
   
