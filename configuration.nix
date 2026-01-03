@@ -10,12 +10,12 @@
 
   # ========== ФАЙЛОВЫЕ СИСТЕМЫ ==========
   fileSystems."/" = {
-    device = "/dev/disk/by-label/root";  # Используем метку!
+    device = "/dev/disk/by-label/root";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/boot";   # Используем метку!
+    device = "/dev/disk/by-label/boot";
     fsType = "vfat";
   };
 
@@ -27,7 +27,7 @@
   boot.kernelParams = [
     "i8042.nopnp"
     "i8042.dumbkbd"
-    "iTCO_wdt.heartbeat=0"  
+    "iTCO_wdt.heartbeat=0"
   ];
 
   # ========== МОДУЛИ ЯДРА ==========
@@ -48,18 +48,16 @@
     keyMap = "us";
   };
 
- # ========== OPENGL ДЛЯ INTEL ARC ==========
+  # ========== OPENGL ДЛЯ INTEL ARC ==========
   hardware.opengl = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
     extraPackages = with pkgs; [
-      intel-media-driver    # для аппаратного декодирования видео
-      vaapiIntel            # VA-API интерфейс
-      libvdpau-va-gl        # VDPAU через VA-API
+      intel-media-driver
+      vaapiIntel
+      libvdpau-va-gl
     ];
   };
-  
+
   # ========== X11 ДЛЯ HYPRLAND ==========
   services.xserver = {
     enable = true;
@@ -125,11 +123,11 @@
     grim slurp wl-clipboard
     
     # Дополнительные утилиты для удобства
-    networkmanagerapplet  # Индикатор сети
-    pavucontrol           # Управление звуком
-    brightnessctl         # Яркость экрана
-    neovim                # Редактор
-    mpv                   # Видеоплеер
+    networkmanagerapplet
+    pavucontrol
+    brightnessctl
+    neovim
+    mpv
   ];
 
   # ========== РАЗРЕШИТЬ НЕСВОБОДНЫЕ ПАКЕТЫ ==========
