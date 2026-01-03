@@ -48,16 +48,6 @@
     keyMap = "us";
   };
 
-  # ========== OPENGL ДЛЯ INTEL ARC ==========
-  hardware.opengl = {
-    enable = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      vaapiIntel
-      libvdpau-va-gl
-    ];
-  };
-
   # ========== X11 ДЛЯ HYPRLAND ==========
   services.xserver = {
     enable = true;
