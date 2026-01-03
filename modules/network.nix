@@ -10,7 +10,7 @@
     networkmanager.enable = true;
     
     # Имя компьютера в сети
-    hostName = "naprikole";
+    hostName = "nixos";
     
     # Отключить IPv6 (для предотвращения утечек через VPN)
     enableIPv6 = false;
