@@ -48,6 +48,18 @@
     keyMap = "us";
   };
 
+ # ========== OPENGL ДЛЯ INTEL ARC ==========
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      intel-media-driver    # для аппаратного декодирования видео
+      vaapiIntel            # VA-API интерфейс
+      libvdpau-va-gl        # VDPAU через VA-API
+    ];
+  };
+  
   # ========== X11 ДЛЯ HYPRLAND ==========
   services.xserver = {
     enable = true;
