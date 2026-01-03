@@ -10,14 +10,19 @@
 
   # ========== ФАЙЛОВЫЕ СИСТЕМЫ ==========
   fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
+    device = "/dev/disk/by-label/root";  # Используем метку!
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/boot";
+    device = "/dev/disk/by-label/boot";   # Используем метку!
     fsType = "vfat";
   };
+
+  # SWAP
+  swapDevices = [
+    { device = "/dev/disk/by-label/swap"; }  # Или без метки для swap
+  ];
 
   # ========== ЗАГРУЗЧИК ==========
   boot.loader.systemd-boot.enable = true;
@@ -27,7 +32,6 @@
   boot.kernelParams = [
     "reboot=pci"
     "acpi=force"
-    "nomodeset"
     "i8042.nopnp"
     "i8042.dumbkbd"
   ];
@@ -87,11 +91,6 @@
     };
   };
 
-  # ========== ОТКЛЮЧАЕМ GNOME ==========
-  # ЭТИ СТРОКИ УДАЛИТЬ - они вызывают предупреждения в NixOS 25.11!
-  # services.xserver.desktopManager.gnome.enable = false;
-  # services.xserver.displayManager.gdm.enable = false;
-
   # ========== ПОЛЬЗОВАТЕЛЬ ==========
   users.users.anton = {
     isNormalUser = true;
@@ -105,6 +104,9 @@
     ];
     initialPassword = "12345";
   };
+
+  # Пароль для root
+  users.users.root.initialPassword = "12345";
 
   # ========== SUDO БЕЗ ПАРОЛЯ ==========
   security.sudo.wheelNeedsPassword = false;
