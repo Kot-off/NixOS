@@ -8,7 +8,7 @@
     ./modules/security.nix
   ];
 
-  # ФАЙЛОВЫЕ СИСТЕМЫ (ДОБАВИТЬ!)
+  # ========== ФАЙЛОВЫЕ СИСТЕМЫ ==========
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
@@ -19,11 +19,11 @@
     fsType = "vfat";
   };
 
-  # ЗАГРУЗЧИК
+  # ========== ЗАГРУЗЧИК ==========
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # ПАРАМЕТРЫ ЯДРА
+  # ========== ПАРАМЕТРЫ ЯДРА ==========
   boot.kernelParams = [
     "reboot=pci"
     "acpi=force"
@@ -32,51 +32,54 @@
     "i8042.dumbkbd"
   ];
 
-  # МОДУЛИ
+  # ========== МОДУЛИ ЯДРА ==========
   boot.initrd.kernelModules = [ "i8042" ];
   boot.kernelModules = [ "uinput" "evdev" ];
 
-  # СЕТЬ
+  # ========== СЕТЬ ==========
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
-  # ВРЕМЯ
+  # ========== ВРЕМЯ ==========
   time.timeZone = "Europe/Moscow";
 
-  # ЛОКАЛИЗАЦИЯ
+  # ========== ЛОКАЛИЗАЦИЯ ==========
   i18n.defaultLocale = "ru_RU.UTF-8";
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";
   };
 
-  # X11 для Hyprland
+  # ========== X11 ДЛЯ HYPRLAND ==========
   services.xserver = {
     enable = true;
-    layout = "us,ru";
-    xkbOptions = "grp:alt_shift_toggle";
     
-    libinput = {
-      enable = true;
-      touchpad = {
-        naturalScrolling = true;
-        tapping = true;
-        disableWhileTyping = true;
-      };
+    xkb = {
+      layout = "us,ru";
+      options = "grp:alt_shift_toggle";
     };
     
     videoDrivers = [ "modesetting" ];
   };
 
-  # HYPRLAND (УДАЛИТЬ nvidiaPatches!)
+  # ========== LIBINPUT (тачпад) ==========
+  services.libinput = {
+    enable = true;
+    touchpad = {
+      naturalScrolling = true;
+      tapping = true;
+      disableWhileTyping = true;
+    };
+  };
+
+  # ========== HYPRLAND ==========
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-    # УДАЛИТЬ: nvidiaPatches = false;
   };
 
-  # Дисплей менеджер
-  services.xserver.displayManager = {
+  # ========== ДИСПЛЕЙ МЕНЕДЖЕР ==========
+  services.displayManager = {
     defaultSession = "hyprland";
     sddm = {
       enable = true;
@@ -84,7 +87,11 @@
     };
   };
 
-  # ПОЛЬЗОВАТЕЛЬ
+  # ========== ОТКЛЮЧАЕМ GNOME ==========
+  services.xserver.desktopManager.gnome.enable = false;
+  services.xserver.displayManager.gdm.enable = false;
+
+  # ========== ПОЛЬЗОВАТЕЛЬ ==========
   users.users.anton = {
     isNormalUser = true;
     extraGroups = [ 
@@ -98,10 +105,10 @@
     initialPassword = "12345678";
   };
 
-  # SUDO без пароля
+  # ========== SUDO БЕЗ ПАРОЛЯ ==========
   security.sudo.wheelNeedsPassword = false;
 
-  # ПАКЕТЫ
+  # ========== СИСТЕМНЫЕ ПАКЕТЫ ==========
   environment.systemPackages = with pkgs; [
     git vim wget curl
     kitty firefox
@@ -109,6 +116,7 @@
     grim slurp wl-clipboard
   ];
 
+  # ========== РАЗРЕШИТЬ НЕСВОБОДНЫЕ ПАКЕТЫ ==========
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "23.11";

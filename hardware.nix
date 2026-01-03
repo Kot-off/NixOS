@@ -1,11 +1,11 @@
 { config, pkgs, ... }:
 
 {
-  # HiDPI настройки
+  # HiDPI настройки (новый способ)
   services.xserver.dpi = 192;
   
-  # Тачпад
-  services.xserver.libinput = {
+  # Тачпад (новый способ)
+  services.libinput = {
     enable = true;
     touchpad = {
       naturalScrolling = true;
@@ -15,7 +15,7 @@
   };
   
   # Звук
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
