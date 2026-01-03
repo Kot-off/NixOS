@@ -88,8 +88,9 @@
   };
 
   # ========== ОТКЛЮЧАЕМ GNOME ==========
-  services.xserver.desktopManager.gnome.enable = false;
-  services.xserver.displayManager.gdm.enable = false;
+  # ЭТИ СТРОКИ УДАЛИТЬ - они вызывают предупреждения в NixOS 25.11!
+  # services.xserver.desktopManager.gnome.enable = false;
+  # services.xserver.displayManager.gdm.enable = false;
 
   # ========== ПОЛЬЗОВАТЕЛЬ ==========
   users.users.anton = {
@@ -102,7 +103,7 @@
       "input"
       "bluetooth" 
     ];
-    initialPassword = "12345678";
+    initialPassword = "12345";
   };
 
   # ========== SUDO БЕЗ ПАРОЛЯ ==========
@@ -114,10 +115,18 @@
     kitty firefox
     rofi waybar swaybg
     grim slurp wl-clipboard
+    
+    # Дополнительные утилиты для удобства
+    networkmanagerapplet  # Индикатор сети
+    pavucontrol           # Управление звуком
+    brightnessctl         # Яркость экрана
+    neovim                # Редактор
+    mpv                   # Видеоплеер
   ];
 
   # ========== РАЗРЕШИТЬ НЕСВОБОДНЫЕ ПАКЕТЫ ==========
   nixpkgs.config.allowUnfree = true;
 
-  system.stateVersion = "23.11";
+  # ========== ВЕРСИЯ СИСТЕМЫ ==========
+  system.stateVersion = "25.11";  # Исправлено с 23.11 на 25.11
 }
